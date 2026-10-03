@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ note['title'] }} — Arpit Notes{% endblock %}
+{% block content %}
+<a class="back" href="{{ url_for('index') }}">← Back to notes</a>
+<section class="detail">
+  <div class="file-icon large">PDF</div>
+  <div class="badges"><span>{{ note['class_name'] }}</span><span>{{ note['subject'] }}</span><span>{{ note['user_type'] }}</span></div>
+  <h1>{{ note['title'] }}</h1>
+  <p class="detail-desc">{{ note['description'] or 'No description added.' }}</p>
+  <div class="info">
+    <div><b>Topic</b><span>{{ note['topic'] or 'Not specified' }}</span></div>
+    <div><b>Uploaded by</b><span>{{ note['uploader_name'] or 'Anonymous' }}</span></div>
+    <div><b>Original file</b><span>{{ note['original_filename'] }}</span></div>
+  </div>
+  <a class="button" href="{{ url_for('download', filename=note['filename']) }}">Download note ↓</a>
+  <form class="delete-form" method="post" action="{{ url_for('delete', note_id=note['id']) }}" onsubmit="return confirm('Delete this note?')">
+    <button class="delete" type="submit">Delete note</button>
+  </form>
+</section>
+{% endblock %}

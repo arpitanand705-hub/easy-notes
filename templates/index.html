@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Arpit Notes — Study Smarter{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <p class="eyebrow">WELCOME TO ARPIT NOTES</p>
+    <h1>Find the notes you<br><span>need, faster.</span></h1>
+    <p class="hero-text">Upload, organize and discover study notes by class, subject, topic and user type.</p>
+  </div>
+  <a class="hero-button" href="{{ url_for('upload') }}">Upload a Note →</a>
+</section>
+
+<form class="filters" method="get">
+  <input name="q" value="{{ q }}" placeholder="Search notes, topics...">
+  <select name="class_name">
+    <option value="">All classes</option>
+    {% for c in classes %}<option value="{{ c }}" {% if c == selected_class %}selected{% endif %}>{{ c }}</option>{% endfor %}
+  </select>
+  <select name="subject">
+    <option value="">All subjects</option>
+    {% for s in subjects %}<option value="{{ s }}" {% if s == selected_subject %}selected{% endif %}>{{ s }}</option>{% endfor %}
+  </select>
+  <select name="user_type">
+    <option value="">All users</option>
+    {% for u in users %}<option value="{{ u }}" {% if u == selected_user %}selected{% endif %}>{{ u }}</option>{% endfor %}
+  </select>
+  <button>Search</button>
+</form>
+
+<div class="section-head">
+  <div>
+    <p class="eyebrow">LIBRARY</p>
+    <h2>Latest notes</h2>
+  </div>
+  <span>{{ notes|length }} note{{ '' if notes|length == 1 else 's' }}</span>
+</div>
+
+{% if notes %}
+<div class="grid">
+{% for note in notes %}
+  <article class="card">
+    <div class="file-icon">PDF</div>
+    <div class="badges">
+      <span>{{ note['class_name'] }}</span>
+      <span>{{ note['subject'] }}</span>
+      <span>{{ note['user_type'] }}</span>
+    </div>
+    <h3>{{ note['title'] }}</h3>
+    <p>{{ note['description'] or 'No description added.' }}</p>
+    {% if note['topic'] %}<small>Topic: {{ note['topic'] }}</small>{% endif %}
+    <div class="card-bottom">
+      <span>By {{ note['uploader_name'] or 'Anonymous' }}</span>
+      <a href="{{ url_for('note_detail', note_id=note['id']) }}">View →</a>
+    </div>
+  </article>
+{% endfor %}
+</div>
+{% else %}
+<div class="empty">
+  <div>📚</div><h3>No notes found</h3>
+  <p>Try another search or upload the first note.</p>
+  <a class="button" href="{{ url_for('upload') }}">Upload notes</a>
+</div>
+{% endif %}
+{% endblock %}

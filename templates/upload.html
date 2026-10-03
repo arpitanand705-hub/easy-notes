@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Upload Notes — Arpit Notes{% endblock %}
+{% block content %}
+<div class="page-title">
+  <p class="eyebrow">ADD TO LIBRARY</p>
+  <h1>Upload a new note</h1>
+  <p>Add details so students can easily find your note later.</p>
+</div>
+
+<form class="upload-form" method="post" enctype="multipart/form-data">
+  <div class="form-grid">
+    <label>Note title *<input name="title" required placeholder="e.g. Current Electricity Short Notes"></label>
+    <label>Class *<input name="class_name" required placeholder="e.g. Class 12"></label>
+    <label>Subject *<input name="subject" required placeholder="e.g. Physics"></label>
+    <label>Topic<input name="topic" placeholder="e.g. Ohm's Law"></label>
+    <label>User type *
+      <select name="user_type" required>
+        <option value="">Choose...</option><option>Student</option><option>Teacher</option><option>Contributor</option>
+      </select>
+    </label>
+    <label>Your name<input name="uploader_name" placeholder="Optional"></label>
+  </div>
+  <label>Description<textarea name="description" rows="5" placeholder="What does this note contain?"></textarea></label>
+  <label class="file-box">Choose note file *
+    <input type="file" name="file" required accept=".pdf,.doc,.docx,.txt,.ppt,.pptx">
+    <small>PDF, DOC, DOCX, TXT, PPT or PPTX</small>
+  </label>
+  <button class="button big" type="submit">Upload note</button>
+</form>
+{% endblock %}

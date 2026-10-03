@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Admin Dashboard - Arpit Notes</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a class="brand" href="{{ url_for('index') }}">
+        <span>AN</span> Arpit Notes
+    </a>
+
+    <nav>
+        <a href="{{ url_for('index') }}">Website</a>
+        <a href="{{ url_for('upload') }}">Upload Note</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% for category, message in messages %}
+
+            <div class="flash {{ category }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endwith %}
+
+
+    <div class="admin-header">
+
+        <div>
+            <div class="admin-badge">ADMIN PANEL</div>
+
+            <h1>Dashboard</h1>
+
+            <p>
+                Welcome back, {{ session.get("admin_username") }}.
+                Manage your notes from here.
+            </p>
+        </div>
+
+        <div class="admin-actions">
+
+            <a class="button"
+               href="{{ url_for('upload') }}">
+                + Upload Note
+            </a>
+
+            <a class="logout-button"
+               href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <small>Total Notes</small>
+            <strong>{{ total_notes }}</strong>
+        </div>
+
+        <div class="stat-card">
+            <small>Website</small>
+            <strong>Live</strong>
+        </div>
+
+        <div class="stat-card">
+            <small>Admin</small>
+            <strong>Active</strong>
+        </div>
+
+    </div>
+
+
+    <div class="admin-section">
+
+        <div class="admin-section-head">
+            <h2>Your Notes</h2>
+        </div>
+
+
+        {% if notes %}
+
+            {% for note in notes %}
+
+                <div class="admin-note">
+
+                    <div class="admin-note-info">
+
+                        <h3>{{ note["title"] }}</h3>
+
+                        <p>
+                            {{ note["class_name"] }}
+                            ·
+                            {{ note["subject"] }}
+
+                            {% if note["topic"] %}
+                                · {{ note["topic"] }}
+                            {% endif %}
+                        </p>
+
+                        <div class="badges">
+
+                            <span>
+                                {{ note["user_type"] }}
+                            </span>
+
+                            <span>
+                                {{ note["original_filename"] }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-note-actions">
+
+                        <a href="{{ url_for(
+                            'note_detail',
+                            note_id=note['id']
+                        ) }}">
+                            View
+                        </a>
+
+                        <a href="{{ url_for(
+                            'download',
+                            filename=note['filename']
+                        ) }}">
+                            Download
+                        </a>
+
+                        <form
+                            method="POST"
+                            action="{{ url_for(
+                                'delete',
+                                note_id=note['id']
+                            ) }}"
+                            class="delete-form"
+                            onsubmit="return confirm(
+                                'Are you sure you want to delete this note?'
+                            );"
+                        >
+
+                            <button
+                                type="submit"
+                                class="delete"
+                            >
+                                Delete
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+
+                <div>📚</div>
+
+                <h3>No notes yet</h3>
+
+                <p>
+                    Upload your first note to start building
+                    Arpit Notes.
+                </p>
+
+                <a class="button"
+                   href="{{ url_for('upload') }}">
+                    Upload Note
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</main>
+
+</body>
+</html>

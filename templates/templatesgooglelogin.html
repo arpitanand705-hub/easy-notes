@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Login - Arpit Notes</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a class="brand"
+       href="{{ url_for('google_login') }}">
+
+        <span>AN</span>
+        Arpit Notes
+
+    </a>
+
+</header>
+
+
+<main class="container">
+
+    <div class="card login-card">
+
+        <div class="file-icon large">
+            AN
+        </div>
+
+        <h1>Welcome to Arpit Notes</h1>
+
+        <p>
+            Sign in with your Google account
+            to access study resources.
+        </p>
+
+
+        {% with messages =
+            get_flashed_messages(
+                with_categories=true
+            )
+        %}
+
+            {% for category, message in messages %}
+
+                <div class="flash {{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endwith %}
+
+
+        <a
+            class="button"
+            href="{{ url_for('google_login') }}"
+            style="width:100%;text-align:center;"
+        >
+            Continue with Google
+        </a>
+
+    </div>
+
+</main>
+
+</body>
+
+</html>
