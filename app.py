@@ -33,6 +33,8 @@ app.wsgi_app = ProxyFix(
 
 # Change this before putting the website online
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
+app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
 UPLOAD_DIR.mkdir(exist_ok=True)
 
