@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{ post['title'] }} - Easy Notes{% endblock %}
+{% block content %}
+<div class="post-page">
+  <a class="back-link" href="{{ url_for('community.community') }}">← Back to Community</a>
+  <article class="single-post">
+    <div class="post-top">
+      <span class="category">{{ post['category'] }}</span>
+      <span class="date">{{ post['created_at'] }}</span>
+    </div>
+    <h1>{{ post['title'] }}</h1>
+    <div class="author-line">👤 {{ post['author_name'] }}</div>
+    <div class="post-body">{{ post['content'] }}</div>
+    <form method="post" action="{{ url_for('community.toggle_like', post_id=post['id']) }}">
+      <button class="like-btn {% if liked %}liked{% endif %}" type="submit">👍 {{ post['like_count'] }} {% if liked %}Liked{% else %}Like{% endif %}</button>
+    </form>
+  </article>
+
+  <section class="comments">
+    <h2>Comments</h2>
+    <form class="comment-form" method="post" action="{{ url_for('community.add_comment', post_id=post['id']) }}">
+      <textarea name="content" maxlength="2000" required placeholder="Write a helpful reply..."></textarea>
+      <button class="primary-btn" type="submit">Reply</button>
+    </form>
+    {% for comment in comments %}
+    <div class="comment-card">
+      <div class="comment-head"><strong>👤 {{ comment['author_name'] }}</strong><span>{{ comment['created_at'] }}</span></div>
+      <p>{{ comment['content'] }}</p>
+    </div>
+    {% else %}
+    <div class="empty-card small"><p>No comments yet. Start the conversation!</p></div>
+    {% endfor %}
+  </section>
+</div>
+{% endblock %}
