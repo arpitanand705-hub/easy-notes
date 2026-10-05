@@ -8,6 +8,7 @@ from pathlib import Path
 from werkzeug.utils import secure_filename
 from functools import wraps
 from authlib.integrations.flask_client import OAuth
+from community import community_bp, init_community_db
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -22,6 +23,8 @@ ALLOWED_EXTENSIONS = {"pdf", "doc", "docx", "txt", "ppt", "pptx"}
 # =========================
 
 app = Flask(__name__)
+app.register_blueprint(community_bp)
+init_community_db()
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 app.wsgi_app = ProxyFix(
