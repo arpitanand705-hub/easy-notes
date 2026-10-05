@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Create Post - Easy Notes{% endblock %}
+{% block content %}
+<div class="form-page">
+  <div class="form-card">
+    <span class="eyebrow">COMMUNITY</span>
+    <h1>Create a Post</h1>
+    <p class="muted">Ask a question, share a useful tip, or start a study discussion.</p>
+    <form method="post">
+      <label>Title</label>
+      <input name="title" maxlength="150" required placeholder="e.g. How should I revise Current Electricity?">
+      <label>Category</label>
+      <select name="category" required>
+        <option>Physics</option><option>Chemistry</option><option>Biology</option>
+        <option>Computer Science</option><option>English</option><option>Mathematics</option>
+        <option>Study Tips</option><option>General</option>
+      </select>
+      <label>Your post</label>
+      <textarea name="content" maxlength="5000" required placeholder="Write your question or discussion here..."></textarea>
+      <div class="form-actions">
+        <a class="secondary-btn" href="{{ url_for('community.community') }}">Cancel</a>
+        <button class="primary-btn" type="submit">Publish Post</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
