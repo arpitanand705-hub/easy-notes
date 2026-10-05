@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Community - Easy Notes{% endblock %}
+{% block content %}
+<div class="community-wrap">
+  <section class="community-hero">
+    <div>
+      <span class="eyebrow">EASY NOTES</span>
+      <h1>Community</h1>
+      <p>Ask questions, share study tips, and learn together.</p>
+    </div>
+    <a class="primary-btn" href="{{ url_for('community.create_post') }}">＋ Create Post</a>
+  </section>
+
+  <form class="community-tools" method="get" action="{{ url_for('community.community') }}">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search discussions...">
+    <select name="category">
+      {% for item in ['All','Physics','Chemistry','Biology','Computer Science','English','Mathematics','Study Tips','General'] %}
+      <option value="{{ item }}" {% if category == item %}selected{% endif %}>{{ item }}</option>
+      {% endfor %}
+    </select>
+    <button class="secondary-btn" type="submit">Search</button>
+  </form>
+
+  <div class="post-list">
+    {% for post in posts %}
+    <article class="post-card">
+      <div class="post-top">
+        <span class="category">{{ post['category'] }}</span>
+        <span class="date">{{ post['created_at'] }}</span>
+      </div>
+      <h2><a href="{{ url_for('community.view_post', post_id=post['id']) }}">{{ post['title'] }}</a></h2>
+      <p class="post-preview">{{ post['content']|truncate(240) }}</p>
+      <div class="post-meta">
+        <span>👤 {{ post['author_name'] }}</span>
+        <span>💬 {{ post['comment_count'] }}</span>
+        <span>👍 {{ post['like_count'] }}</span>
+      </div>
+    </article>
+    {% else %}
+    <div class="empty-card">
+      <div class="empty-icon">💬</div>
+      <h2>No discussions yet</h2>
+      <p>Be the first student to start a discussion.</p>
+      <a class="primary-btn" href="{{ url_for('community.create_post') }}">Create the first post</a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
